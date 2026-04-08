@@ -1,0 +1,33 @@
+# Large/binary files
+*.ifc
+*.nwc
+*.nwd
+*.pyz
+*.exe
+*.csv
+*.xlsx
+*.xls
+*.png
+
+# Build artifacts
+build/
+dist/
+__pycache__/
+*.pyc
+
+# Inputs/outputs
+inputs/
+outputs/
+nwc_check/
+
+# Archive data files
+_archive/ifc_model_validator/in/
+_archive/nwc_check/*.csv
+_archive/nwc_check/*.html
+_archive/nwc_check/nwc_check/
+_archive/Reg_check2/*.csv
+_archive/Reg_check2/in/
+_archive/Reg_check2/Reference Docs/
+
+# Reference docs (data files)
+reference_docs/

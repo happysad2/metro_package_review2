@@ -1,0 +1,110 @@
+Not meeting Employers Information Requirements
+Not following - SM-22-00326845 Asset Register Template and Specification
+Missing fields including but not limited to:
+TfNSW Asset ID
+TfNSW Parent Asset ID
+Project Asset ID
+Project Parent Asset ID
+Asset Code
+Parent Asset Code
+Asset Type Code
+Asset Description
+Asset Label Description Hierarchy
+Uniclass Code
+Uniclass Title
+Asset Location Code
+Asset Location Description Hierarchy
+Discipline Code (Object)
+Discipline Description
+Sub-discipline Code (Object)
+Sub-discipline Description
+SMSA ID
+SMSA Name
+GPS Coordinates
+Start Latitude
+Start Longitude
+End Latitude
+End Longitude
+Start Km (Km)
+End Km (Km)
+Coordinate Datum
+Local Government Area (LGA)
+Asset Status Code
+Asset Status
+Asset Status Date
+Asset Owner Code
+Retired Date
+Disposed Date
+Planned Disposal Date
+Asset Owner
+Asset Maintainer Primary Code
+Asset Maintainer Primary
+Asset Maintainer Primary Contract ID
+Asset Maintainer Third Party Code
+Asset Maintainer Third Party
+Asset Operator Code
+Asset Operator
+Asset Custodian Code
+Asset Custodian
+Project Contract Code
+Project Name
+Asset Lessee Code
+Asset Lessee
+Modelled Asset Flag
+Source Model
+GUID
+Maintenance Managed Item Flag
+Asset System
+Asset Criticality
+Design Life
+Design Service Life End Date
+Base Code
+Asset Type Configuration Code (Specification)
+Length
+Width
+Height
+Area
+Volume
+Weight
+CBS Code
+Manufacturer
+Model
+Product Code
+Variant
+Manufacturer Part Number
+Batch Number
+Vendor
+Purchased Date
+Acquisition Cost
+Gross Current Replacement Cost
+Rotable
+TMP ID
+TMC ID
+Manufactured Date
+Serial Number
+Commissioned Date
+Warranty Document Number
+Warranty Start Date
+Warranty End Date
+In Service Date
+Asset Handover Date
+Asset Condition
+Asset Condition Date
+Remaining Service Life
+Useful Life
+Label
+Constructor
+Constructed Date
+Transport Network
+Transport Mode
+Technical Object Code
+Type Approval Number
+Concession Number
+State Heritage Inventory Number
+Asset Comments
+Record Status
+Hazardous Material Code
+Contamination Risk Code
+DDA Compliant
+Asset Geometry
+

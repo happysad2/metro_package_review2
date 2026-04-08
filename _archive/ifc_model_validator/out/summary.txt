@@ -1,0 +1,11 @@
+FILE: SMWSTETP-JCG-TBY-SN200-CV-M3D-150001.ifc
+IFC version FAIL - Expected IFC4X3, detected: IFC4
+SM_PROJECT FAIL
+REASONS
+Invalid value: GLOBALID contains disallowed N/A, SM_LocationSiteCode contains disallowed N/A, SM_LocationSiteDesc contains disallowed N/A, tbAEOSuppCode contains disallowed N/A, TfNSW_DocumentNumber contains disallowed N/A, TfNSW_ProjectandContractName contains disallowed N/A, TfNSW_ProjectMilestoneDesc contains disallowed N/A
+SM_ASSET FAIL
+REASONS
+Invalid value: GUID contains disallowed N/A, GLOBALID contains disallowed N/A, SM_CBS_ID contains disallowed N/A, SM_WBS contains disallowed N/A, Start Latitude contains disallowed N/A, Start Longitude contains disallowed N/A, TfNSW_ AssetCode contains disallowed N/A, TfNSW_AssetDescription contains disallowed N/A, TfNSW_AssetID contains disallowed N/A, TfNSW_AssetInstance contains disallowed N/A, TfNSW_AssetTypeConfigCode contains disallowed N/A, TfNSW_AssetTypeConfigDesc contains disallowed N/A, TfNSW_EndKm contains disallowed N/A, TfNSW_MMIFlag contains disallowed N/A, TfNSW_GPSCoordinates contains disallowed N/A, TfNSW_ParentAssetCode contains disallowed N/A, TfNSW_ParentAssetID contains disallowed N/A, TfNSW_StartKm contains disallowed N/A, TfNSW_SubDisciplineCode contains disallowed N/A, TfNSW_UniclassAssetCode contains disallowed N/A
+SM_LOCATION FAIL
+REASONS
+Invalid value: TfNSW_AssetLocationID contains disallowed N/A, TfNSW_ParentAssetLocationID contains disallowed N/A, TfNSW_UniClassAssetLocationCode contains disallowed N/A, TfNSW_UniClassAssetLocationTitle contains disallowed N/A, TfNSW_ProjectAssetID contains disallowed N/A, TfNSW_ParentProjectAssetID contains disallowed N/A

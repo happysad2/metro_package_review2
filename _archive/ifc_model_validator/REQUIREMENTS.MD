@@ -1,0 +1,132 @@
+#23926 = IFCPROPERTYSINGLEVALUE('SM_LocationFacilityCode', $, IFCLABEL('SN'), $);
+
+Write a script to take an IFC from the 'In' folder.
+
+Check against the requirements.
+
+Output to the 'out folder'
+
+1. Logs
+2. High-level summary of issues 
+- ie. IFC version PASS / FAIL - REASON
+SM_Project FAIL
+REASONS
+SM_ASSET FAIL
+REASONS
+SM_LOCATION FAIL
+REASONS
+3. CSV OF PASS / FAIL + DETAILS.
+
+ 
+Requirements to check:
+
+- IFC 4x3 
+and fits this schema - the values don't have to be like this, but they should all have a value.
+If the value isn't flagged then it should output
+
+N/A should all be flagged for all except for:
+
+#23927 = IFCPROPERTYSINGLEVALUE('SM_LocationFacilityDesc', $, IFCLABEL('Station'), $);
+#23928 = IFCPROPERTYSINGLEVALUE('SM_LocationLevelCode', $, IFCLABEL('N/A'), $);
+#23929 = IFCPROPERTYSINGLEVALUE('SM_LocationLevelDesc', $, IFCLABEL('N/A'), $);
+#23930 = IFCPROPERTYSINGLEVALUE('SM_LocationRoomSpaceInstNumber', $, IFCLABEL('N/A'), $);
+#23931 = IFCPROPERTYSINGLEVALUE('SM_LocationRoomSpaceName', $, IFCLABEL('N/A'), $);
+#23932 = IFCPROPERTYSINGLEVALUE('SM_LocationRoomSpaceTypeCode', $, IFCLABEL('N/A'), $);
+#23933 = IFCPROPERTYSINGLEVALUE('SM_LocationRoomSpaceTypeDesc', $, IFCLABEL('N/A'), $);
+#23888 = IFCPROPERTYSINGLEVALUE('End Latitude', $, IFCLABEL('N/A'), $);
+#23889 = IFCPROPERTYSINGLEVALUE('End Longitude', $, IFCLABEL('N/A'), $);
+#23890 = IFCPROPERTYSINGLEVALUE('SM_ActivityCode', $, IFCLABEL('N/A'), $);
+#23891 = IFCPROPERTYSINGLEVALUE('SM_ActivityName', $, IFCLABEL('N/A'), $);
+
+These should all have a value that is not N/A:
+
+#23934 = IFCPROPERTYSINGLEVALUE('SM_LocationZoneCode', $, IFCLABEL('Z02'), $);
+#23935 = IFCPROPERTYSINGLEVALUE('SM_LocationZoneDesc', $, IFCLABEL('Rail Corridor - City'), $);
+#23936 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetLocationCode', $, IFCLABEL('MRS.M11'), $);
+#23937 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetLocationDesc', $, IFCLABEL('Metro West Line'), $);
+#23938 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetLocationID', $, IFCLABEL('N/A'), $);
+#23939 = IFCPROPERTYSINGLEVALUE('TfNSW_ParentAssetLocationCode', $, IFCLABEL('MRS'), $);
+#23940 = IFCPROPERTYSINGLEVALUE('TfNSW_ParentAssetLocationID', $, IFCLABEL('N/A'), $);
+#23941 = IFCPROPERTYSINGLEVALUE('TfNSW_UniClassAssetLocationCode', $, IFCLABEL('N/A'), $);
+#23942 = IFCPROPERTYSINGLEVALUE('TfNSW_UniClassAssetLocationTitle', $, IFCLABEL('N/A'), $);
+#23943 = IFCPROPERTYSINGLEVALUE('TfNSW_ProjectAssetID', $, IFCLABEL('N/A'), $);
+#23944 = IFCPROPERTYSINGLEVALUE('TfNSW_ParentProjectAssetID', $, IFCLABEL('N/A'), $);
+#23945 = IFCPROPERTYSINGLEVALUE('Uniclass_CoCode', $, IFCLABEL('Co_80_50_35'), $);
+#23946 = IFCPROPERTYSINGLEVALUE('Uniclass_CoTitle', $, IFCLABEL('Heavy Rail Complexes'), $);
+#23947 = IFCPROPERTYSINGLEVALUE('Uniclass_EnCode', $, IFCLABEL('En_80_35_74'), $);
+#23948 = IFCPROPERTYSINGLEVALUE('Uniclass_EnTitle', $, IFCLABEL('Roads'), $);
+#23949 = IFCPROPERTYSINGLEVALUE('Uniclass_SLCode', $, IFCLABEL('SL_80_35'), $);
+#23950 = IFCPROPERTYSINGLEVALUE('Uniclass_SLTitle', $, IFCLABEL('Road Spaces'), $);
+#23951 = IFCPROPERTYSINGLEVALUE('Facility Code', $, IFCLABEL('SN200'), $);
+#23952 = IFCPROPERTYSINGLEVALUE('FacilityDesc', $, IFCLABEL('Station - The Bays'), $);
+
+#23955 = IFCPROPERTYSINGLEVALUE('GLOBALID', $, IFCLABEL('N/A'), $);
+#23956 = IFCPROPERTYSINGLEVALUE('Project_Contract_Code', $, IFCLABEL('SMWSTETP'), $);
+#23957 = IFCPROPERTYSINGLEVALUE('SM_LocationCorridorCode', $, IFCLABEL('M11'), $);
+#23958 = IFCPROPERTYSINGLEVALUE('SM_LocationCorridorDesc', $, IFCLABEL('Metro West Line'), $);
+#23959 = IFCPROPERTYSINGLEVALUE('SM_LocationNetworkCode', $, IFCLABEL('MRS'), $);
+#23960 = IFCPROPERTYSINGLEVALUE('SM_LocationNetworkDesc', $, IFCLABEL('Metro Rail-Sydney'), $);
+#23961 = IFCPROPERTYSINGLEVALUE('SM_LocationSiteCode', $, IFCLABEL('N/A'), $);
+#23962 = IFCPROPERTYSINGLEVALUE('SM_LocationSiteDesc', $, IFCLABEL('N/A'), $);
+#23963 = IFCPROPERTYSINGLEVALUE('SM_ModelOriginator', $, IFCLABEL('BG&E'), $);
+#23964 = IFCPROPERTYSINGLEVALUE('SM_ModelCheck', $, IFCLABEL('Damian Chivers'), $);
+#23965 = IFCPROPERTYSINGLEVALUE('SM_ModelApprover', $, IFCLABEL('Amit Dutta'), $);
+#23966 = IFCPROPERTYSINGLEVALUE('SM_ModelRevisionDate', $, IFCLABEL('31072023'), $);
+#23967 = IFCPROPERTYSINGLEVALUE('SM_ModelRevisionNumber', $, IFCLABEL('0'), $);
+#23968 = IFCPROPERTYSINGLEVALUE('tbAEODisciplineCode', $, IFCLABEL('CV'), $);
+#23969 = IFCPROPERTYSINGLEVALUE('tbAEODisciplineDesc', $, IFCLABEL('Civil'), $);
+#23970 = IFCPROPERTYSINGLEVALUE('tbAEOSubDiscCode', $, IFCLABEL('RW'), $);
+#23971 = IFCPROPERTYSINGLEVALUE('tbAEOSubDiscDesc', $, IFCLABEL('Roadworks'), $);
+#23972 = IFCPROPERTYSINGLEVALUE('tbAEOSuppCode', $, IFCLABEL('N/A'), $);
+#23973 = IFCPROPERTYSINGLEVALUE('tbAEOSuppName', $, IFCLABEL('John Holland CPB Ghella JV'), $);
+
+tbCoordSys MUST be 'GDA2020/MGA zone 56'
+**#23974 = IFCPROPERTYSINGLEVALUE('tbCoordSys', $, IFCLABEL('GDA2020/MGA zone 56'), $);**
+
+#23975 = IFCPROPERTYSINGLEVALUE('tbDesignCompCode', $, IFCLABEL('BG&E'), $);
+#23976 = IFCPROPERTYSINGLEVALUE('tbDesignCompName', $, IFCLABEL('BG&E Consulting Engineers'), $);
+#23977 = IFCPROPERTYSINGLEVALUE('TfNSW_DocumentNumber', $, IFCLABEL('N/A'), $);
+#23978 = IFCPROPERTYSINGLEVALUE('TfNSW_DocumentTitle', $, IFCLABEL('The Bays Civil Model'), $);
+#23979 = IFCPROPERTYSINGLEVALUE('TfNSW_ProjectandContractName', $, IFCLABEL('N/A'), $);
+#23980 = IFCPROPERTYSINGLEVALUE('TfNSW_ProjectMilestoneDesc', $, IFCLABEL('N/A'), $);
+#23981 = IFCPROPERTYSINGLEVALUE('TfNSW_StateDesc', $, IFCLABEL('SHARED'), $);
+#23982 = IFCPROPERTYSINGLEVALUE('TfNSW_SuitabilityDesc', $, IFCLABEL('FOR CONSTRUCTION'), $);
+
+'TfNSW_DocumentNo' must be length 36 (characters)
+#23983 = IFCPROPERTYSINGLEVALUE('TfNSW_DocumentNo', $, IFCLABEL('SMWSTETP-JCG-TBY-SN200-CV-M3D-150001'), $);
+
+#23886 = IFCPROPERTYSINGLEVALUE('GUID', $, IFCIDENTIFIER('21812659'), $);
+#23887 = IFCPROPERTYSINGLEVALUE('GLOBALID', $, IFCLABEL('21812659'), $);
+
+#23892 = IFCPROPERTYSINGLEVALUE('SM_CBS_ID', $, IFCLABEL('N/A'), $);
+#23893 = IFCPROPERTYSINGLEVALUE('SM_SBS_ID', $, IFCLABEL('SM-966'), $);
+#23894 = IFCPROPERTYSINGLEVALUE('SM_WBS', $, IFCLABEL('N/A'), $);
+#23895 = IFCPROPERTYSINGLEVALUE('Start Latitude', $, IFCLABEL('N/A'), $);
+#23896 = IFCPROPERTYSINGLEVALUE('Start Longitude', $, IFCLABEL('N/A'), $);
+#23897 = IFCPROPERTYSINGLEVALUE('TfNSW_ AssetCode', $, IFCLABEL('N/A'), $);
+#23898 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetDescription', $, IFCLABEL('N/A'), $);
+#23899 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetID', $, IFCLABEL('N/A'), $);
+#23900 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetInstance', $, IFCLABEL('N/A'), $);
+#23901 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetMaintainerOrgName', $, IFCLABEL('Sydney Metro'), $);
+#23902 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetOperatorOrgName', $, IFCLABEL('Sydney Metro'), $);
+#23903 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetOwnerOrgName', $, IFCLABEL('Sydney Metro'), $);
+#23904 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetStatusCode', $, IFCLABEL('PLAN'), $);
+#23905 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetTypeCode', $, IFCLABEL('Roads'), $);
+#23906 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetTypeConfigCode', $, IFCLABEL('N/A'), $);
+#23907 = IFCPROPERTYSINGLEVALUE('TfNSW_AssetTypeConfigDesc', $, IFCLABEL('N/A'), $);
+#23908 = IFCPROPERTYSINGLEVALUE('TfNSW_DisciplineCode', $, IFCLABEL('CV'), $);
+#23909 = IFCPROPERTYSINGLEVALUE('TfNSW_EndKm', $, IFCLABEL('N/A'), $);
+#23910 = IFCPROPERTYSINGLEVALUE('TfNSW_MMIFlag', $, IFCLABEL('N/A'), $);
+#23911 = IFCPROPERTYSINGLEVALUE('TfNSW_GPSCoordinates', $, IFCLABEL('N/A'), $);
+#23912 = IFCPROPERTYSINGLEVALUE('TfNSW_ParentAssetCode', $, IFCLABEL('N/A'), $);
+#23913 = IFCPROPERTYSINGLEVALUE('TfNSW_ParentAssetID', $, IFCLABEL('N/A'), $);
+#23914 = IFCPROPERTYSINGLEVALUE('TfNSW_StartKm', $, IFCLABEL('N/A'), $);
+#23915 = IFCPROPERTYSINGLEVALUE('TfNSW_SubDisciplineCode', $, IFCLABEL('N/A'), $);
+#23916 = IFCPROPERTYSINGLEVALUE('TfNSW_UniclassAssetCode', $, IFCLABEL('N/A'), $);
+#23917 = IFCPROPERTYSINGLEVALUE('TfNSW_UniclassAssetTitle', $, IFCLABEL('Access ramps'), $);
+#23918 = IFCPROPERTYSINGLEVALUE('Uniclass_EFCode', $, IFCLABEL('EF_30_60_95'), $);
+#23919 = IFCPROPERTYSINGLEVALUE('Uniclass_EFTitle', $, IFCLABEL('Vehicular paving'), $);
+#23920 = IFCPROPERTYSINGLEVALUE('Uniclass_PrCode', $, IFCLABEL('Pr_30_59_01'), $);
+#23921 = IFCPROPERTYSINGLEVALUE('Uniclass_PrTitle', $, IFCLABEL('Access Ramps'), $);
+#23922 = IFCPROPERTYSINGLEVALUE('Uniclass_SsCode', $, IFCLABEL('Ss_30_14_05'), $);
+#23923 = IFCPROPERTYSINGLEVALUE('Uniclass_SsTitle', $, IFCLABEL('Pavement'), $);

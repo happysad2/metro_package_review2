@@ -1,0 +1,12 @@
+File: in\SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02.xlsx
+Result: FAIL
+Timestamp: 2026-02-24T11:46:37
+Right template checks: FAIL
+Has value checks: PASS
+Exported CSV: out\SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02_Asset_List_-_To_Be_Populated.csv
+Details:
+- Validating file: SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02.xlsx
+- Header mismatch at T6: expected 'GPS Coordinates', found 'Work Package Code (Design)'
+- Header mismatch at AA6: expected 'Coordinate Datum', found 'Start Longitude'
+- Exported sheet 'Asset List - To Be Populated' to CSV: SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02_Asset_List_-_To_Be_Populated.csv
+- Validation status: FAIL

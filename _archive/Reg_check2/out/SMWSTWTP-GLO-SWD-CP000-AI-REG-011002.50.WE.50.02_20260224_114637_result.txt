@@ -1,0 +1,11 @@
+File: SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02.xlsx
+Result: FAIL
+Right template checks:
+- FAIL
+- Submission template structure has been modified. Sydney Metro Template, cells not aligning.
+- Header mismatch at T6: expected 'GPS Coordinates', found 'Work Package Code (Design)'
+- Header mismatch at AA6: expected 'Coordinate Datum', found 'Start Longitude'
+Has value checks:
+- PASS
+- has value checks passed.
+- exported CSV: SMWSTWTP-GLO-SWD-CP000-AI-REG-011002.50.WE.50.02_Asset_List_-_To_Be_Populated.csv
