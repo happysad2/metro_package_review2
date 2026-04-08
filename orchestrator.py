@@ -147,6 +147,7 @@ def run(
     results: List[ModuleResult],
     output_folder: Path,
     log_callback=None,
+    eir_version: str | None = None,
 ) -> str:
     """
     Collate module results into a high-level package review.
@@ -177,10 +178,13 @@ def run(
     response_path.write_text(contractor_response + "\n", encoding="utf-8")
 
     summary_path = output_folder / "package_review_summary.txt"
+    eir_line = f"EIR Version: {eir_version}" if eir_version else "EIR Version: Built-in rules"
     full_output = "\n".join([
         "=" * 60,
         "  METRO PACKAGE REVIEW — HIGH-LEVEL SUMMARY",
         "=" * 60,
+        "",
+        eir_line,
         "",
         "REVIEWER GUIDANCE:",
         guidance,

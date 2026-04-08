@@ -31,3 +31,6 @@ _archive/Reg_check2/Reference Docs/
 
 # Reference docs (data files)
 reference_docs/
+
+# EIR reference documents (large binaries — schemas loaded at runtime)
+EIRs/

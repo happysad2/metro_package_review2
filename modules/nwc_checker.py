@@ -261,9 +261,11 @@ def _check_object(obj: NwcObject, fields: list[SchemaField], phase: str, result:
 # ---------------------------------------------------------------------------
 
 def run(input_folder: Path, output_folder: Path, log_callback=None,
-        phase: str = DEFAULT_PHASE) -> ModuleResult:
+        phase: str = DEFAULT_PHASE, bim_schema=None) -> ModuleResult:
     """
     Scan *input_folder* for .nwc files and validate each against the BIM schema.
+    If *bim_schema* (a BIMSchemaConfig from eir_config) is provided,
+    its source xlsx is used instead of the default reference_docs copy.
     """
     result = ModuleResult(module_name="NWC Model")
 
@@ -293,9 +295,13 @@ def run(input_folder: Path, output_folder: Path, log_callback=None,
             log_callback("[NWC] pywin32 not available — skipping NWC checks.")
         return result
 
-    # Find schema
-    from modules import APP_ROOT as app_root
-    schema_path = _find_schema_xlsx(app_root)
+    # Find schema — prefer EIR-provided path, fall back to reference_docs
+    schema_path = None
+    if bim_schema and hasattr(bim_schema, '_source_path'):
+        schema_path = bim_schema._source_path
+    if schema_path is None:
+        from modules import APP_ROOT as app_root
+        schema_path = _find_schema_xlsx(app_root)
     if schema_path is None:
         for f in nwc_files:
             result.files_checked.append(f.name)

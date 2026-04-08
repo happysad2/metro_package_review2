@@ -19,13 +19,14 @@ from PySide6.QtGui import (
     QRadialGradient, QImage, QLinearGradient,
 )
 from PySide6.QtWidgets import (
-    QApplication, QFileDialog, QGraphicsDropShadowEffect,
+    QApplication, QComboBox, QFileDialog, QGraphicsDropShadowEffect,
     QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton,
     QTextEdit, QVBoxLayout, QWidget,
 )
 
 from modules import APP_ROOT, ModuleResult
 from modules import asset_register_checker, ifc_checker, nwc_checker
+from modules.eir_config import discover_versions, load_bim_schema, EIRVersion
 from orchestrator import run as orchestrate
 
 # ---------------------------------------------------------------------------
@@ -86,9 +87,11 @@ class WorkerSignals(QObject):
 
 
 class ReviewWorker(QThread):
-    def __init__(self, inp: Path, out: Path, sig: WorkerSignals):
+    def __init__(self, inp: Path, out: Path, sig: WorkerSignals,
+                 eir_version: EIRVersion | None = None):
         super().__init__()
         self.inp, self.out, self.sig = inp, out, sig
+        self.eir_version = eir_version
 
     def _log(self, msg, tag=""):
         self.sig.log.emit(msg, tag)
@@ -102,6 +105,29 @@ class ReviewWorker(QThread):
         self._log("=" * 50, "heading")
         self._log(f"Input:  {self.inp}")
         self._log(f"Output: {self.out}")
+
+        # ── Load EIR schema if a version was selected ──
+        bim_schema = None
+        if self.eir_version:
+            self._log(f"EIR:    {self.eir_version.display_name}")
+            if self.eir_version.has_schemas:
+                self._log(f"Loading BIM schema from {self.eir_version.bim_schema_path.name}…")
+                try:
+                    bim_schema = load_bim_schema(self.eir_version)
+                    if bim_schema:
+                        self._log(
+                            f"  Loaded {len(bim_schema.fields)} fields, "
+                            f"{len(bim_schema.ifc_property_sets)} property sets",
+                            "pass",
+                        )
+                    else:
+                        self._log("  Could not parse BIM schema — using built-in rules", "warn")
+                except Exception as exc:
+                    self._log(f"  Schema load error: {exc} — using built-in rules", "warn")
+            else:
+                self._log("  No schema files in this EIR version — using built-in rules", "warn")
+        else:
+            self._log("EIR:    None selected — using built-in rules")
         self._log("")
 
         results: list[ModuleResult] = []
@@ -114,7 +140,14 @@ class ReviewWorker(QThread):
             self._log(f"─── {name} Check ───", "heading")
             self._ind(name, "running")
             try:
-                r = checker.run(self.inp, self.out, self._log)
+                if name == "IFC Model":
+                    r = checker.run(self.inp, self.out, self._log,
+                                    bim_schema=bim_schema)
+                elif name == "NWC Model":
+                    r = checker.run(self.inp, self.out, self._log,
+                                    bim_schema=bim_schema)
+                else:
+                    r = checker.run(self.inp, self.out, self._log)
                 results.append(r)
                 self._ind(name, "pass" if r.overall_passed else "fail")
             except Exception as exc:
@@ -122,8 +155,9 @@ class ReviewWorker(QThread):
                 self._ind(name, "fail")
             self._log("")
 
+        eir_label = self.eir_version.display_name if self.eir_version else None
         try:
-            orchestrate(results, self.out, self._log)
+            orchestrate(results, self.out, self._log, eir_version=eir_label)
         except Exception as exc:
             self._log(f"[Orchestrator] ERROR: {exc}", "fail")
 
@@ -364,6 +398,41 @@ class MetroApp(QMainWindow):
         root.addLayout(ri)
         root.addSpacing(4)
         root.addLayout(ro)
+        root.addSpacing(4)
+
+        # ── EIR version selector ──
+        eir_row = QHBoxLayout()
+        eir_row.setSpacing(6)
+        eir_lb = QLabel("EIR")
+        eir_lb.setFixedWidth(46)
+        eir_lb.setStyleSheet(lbl_ss)
+        self._eir_combo = QComboBox()
+        self._eir_combo.setStyleSheet(
+            f"QComboBox {{ background:rgba(16,24,36,180); color:{TEXT_WHITE};"
+            f"  border:1px solid rgba(255,255,255,0.06); border-radius:4px;"
+            f"  padding:4px 8px; font-family:{FONT_FAMILY}; font-size:8.5pt; }}"
+            f"QComboBox:focus {{ border:1px solid {ACCENT}; }}"
+            f"QComboBox::drop-down {{ border:none; width:20px; }}"
+            f"QComboBox::down-arrow {{ image:none; border-left:4px solid transparent;"
+            f"  border-right:4px solid transparent; border-top:5px solid {ACCENT}; }}"
+            f"QComboBox QAbstractItemView {{ background:rgba(16,24,36,240); color:{TEXT_WHITE};"
+            f"  border:1px solid {ACCENT_DIM}; selection-background-color:{ACCENT_DIM};"
+            f"  font-family:{FONT_FAMILY}; font-size:8.5pt; }}"
+        )
+        self._eir_versions: list[EIRVersion | None] = [None]
+        self._eir_combo.addItem("(none — built-in rules)")
+        for v in discover_versions():
+            suffix = "" if v.has_schemas else "  (no schemas)"
+            self._eir_combo.addItem(f"{v.display_name}{suffix}")
+            self._eir_versions.append(v)
+        # Default to newest version with schemas
+        for i, v in enumerate(self._eir_versions):
+            if v is not None and v.has_schemas:
+                self._eir_combo.setCurrentIndex(i)
+                break
+        eir_row.addWidget(eir_lb)
+        eir_row.addWidget(self._eir_combo, 1)
+        root.addLayout(eir_row)
         root.addSpacing(10)
 
         # ── Run button + dots ──
@@ -502,7 +571,8 @@ class MetroApp(QMainWindow):
             d.set_status("skip")
         self._log.clear()
 
-        self._worker = ReviewWorker(ip, op, self._sig)
+        eir = self._eir_versions[self._eir_combo.currentIndex()]
+        self._worker = ReviewWorker(ip, op, self._sig, eir_version=eir)
         self._worker.start()
 
     def _on_finish(self, ok):

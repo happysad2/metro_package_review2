@@ -16,7 +16,7 @@ from typing import List
 from modules import ModuleResult
 
 # ---------------------------------------------------------------------------
-# Required properties per group
+# Required properties per group (fallback when no EIR schema loaded)
 # ---------------------------------------------------------------------------
 
 LOCATION_REQUIRED = [
@@ -170,7 +170,7 @@ def _validate_group(
     return passed, missing, empty, invalid
 
 
-def _validate_ifc(ifc_path: Path, result: ModuleResult) -> None:
+def _validate_ifc(ifc_path: Path, result: ModuleResult, groups=None) -> None:
     fname = ifc_path.name
     try:
         text = ifc_path.read_text(encoding="utf-8", errors="ignore")
@@ -190,11 +190,12 @@ def _validate_ifc(ifc_path: Path, result: ModuleResult) -> None:
 
     props = _extract_properties(text)
 
-    groups = [
-        ("SM_PROJECT", PROJECT_REQUIRED),
-        ("SM_ASSET", ASSET_REQUIRED),
-        ("SM_LOCATION", LOCATION_REQUIRED),
-    ]
+    if groups is None:
+        groups = [
+            ("SM_PROJECT", PROJECT_REQUIRED),
+            ("SM_ASSET", ASSET_REQUIRED),
+            ("SM_LOCATION", LOCATION_REQUIRED),
+        ]
 
     for gname, required in groups:
         passed, missing, empty, invalid = _validate_group(gname, required, props)
@@ -217,9 +218,13 @@ def _validate_ifc(ifc_path: Path, result: ModuleResult) -> None:
 # Public entry point
 # ---------------------------------------------------------------------------
 
-def run(input_folder: Path, output_folder: Path, log_callback=None) -> ModuleResult:
+def run(input_folder: Path, output_folder: Path, log_callback=None,
+        bim_schema=None) -> ModuleResult:
     """
     Scan *input_folder* for .ifc files and validate each.
+    If *bim_schema* (a BIMSchemaConfig) is provided, required properties
+    are derived from the schema.  Otherwise the hardcoded fallback lists
+    are used.
     Returns a ModuleResult with granular findings and summary.
     """
     result = ModuleResult(module_name="IFC Model")
@@ -234,11 +239,35 @@ def run(input_folder: Path, output_folder: Path, log_callback=None) -> ModuleRes
             log_callback("[IFC] No .ifc files found.")
         return result
 
+    # Build property-set requirements from EIR schema or fallback
+    if bim_schema and bim_schema.ifc_property_sets:
+        groups = []
+        _PS_MAP = {
+            "SM_Project": "SM_PROJECT",
+            "SM_Asset": "SM_ASSET",
+            "SM_Location": "SM_LOCATION",
+        }
+        for ps_raw, attrs in bim_schema.ifc_property_sets.items():
+            ps_key = ps_raw.strip()
+            display = _PS_MAP.get(ps_key, ps_key)
+            groups.append((display, attrs))
+        if log_callback:
+            total = sum(len(a) for _, a in groups)
+            log_callback(f"[IFC] Using EIR schema: {total} properties across {len(groups)} property sets")
+    else:
+        groups = [
+            ("SM_PROJECT", PROJECT_REQUIRED),
+            ("SM_ASSET", ASSET_REQUIRED),
+            ("SM_LOCATION", LOCATION_REQUIRED),
+        ]
+        if log_callback and bim_schema is None:
+            log_callback("[IFC] No EIR schema — using built-in property lists")
+
     for ifc_file in ifc_files:
         result.files_checked.append(ifc_file.name)
         if log_callback:
             log_callback(f"[IFC] Checking: {ifc_file.name}")
-        _validate_ifc(ifc_file, result)
+        _validate_ifc(ifc_file, result, groups)
 
     result.build_granular_text()
     result.build_summary()
